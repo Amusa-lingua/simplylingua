@@ -732,18 +732,18 @@ function toggleTheme() {
 
 /* ── Units ── */
 const UNITS = [
-  { n:1, title:'Who I Am',           grammar:'The verb to be (am / is / are)',       tags:['Introductions','Identity','Jobs'],  stripe:'s1', live:true,  url:'https://claude.ai/artifact/EdyM4rYF2BaWqfhZJYGr3m' },
-  { n:2, title:'A Busy Life',        grammar:'Present simple — daily routines',       tags:['Routines','Time','Work'],            stripe:'s2', live:false },
-  { n:3, title:'Changing World',     grammar:'Present continuous',                    tags:['Actions now','Progress'],            stripe:'s3', live:false },
-  { n:4, title:'Free Time',          grammar:"Can / can't — ability",                 tags:['Hobbies','Ability'],                 stripe:'s4', live:false },
-  { n:5, title:'Have You Got…?',     grammar:'Have got — possession',                 tags:['Family','Possessions'],              stripe:'s5', live:false },
-  { n:6, title:'Keep Fit, Feel Good',grammar:"Should / shouldn't — advice",           tags:['Health','Advice'],                   stripe:'s6', live:false },
-  { n:7, title:'A Good Holiday',     grammar:'Past simple — regular & irregular',     tags:['Travel','Past events'],              stripe:'s7', live:false },
-  { n:8, title:'Feels Like Home',    grammar:'There is / are · Prepositions of place',tags:['Home','Location'],                   stripe:'s8', live:false },
+  { n:1, title:'Who I Am',        grammar:'The verb to be (am / is / are)',              tags:['Introductions','Identity','Jobs'],    stripe:'s1', live:true, url:'https://simplylingua.netlify.app/unit1.html' },
+  { n:2, title:'A Busy Life',     grammar:'Present simple — daily routines',             tags:['Routines','Time','Work'],             stripe:'s2', live:true, url:'https://simplylingua.netlify.app/unit2.html' },
+  { n:3, title:'Shopping & Money',grammar:"Can / can't · Prices & numbers",              tags:['Shopping','Money','Numbers'],         stripe:'s3', live:true, url:'https://simplylingua.netlify.app/unit3.html' },
+  { n:4, title:'My Neighbourhood', grammar:'There is / there are · Prepositions of place',tags:['Places','Location','Community'],     stripe:'s4', live:true, url:'https://simplylingua.netlify.app/unit4.html' },
+  { n:5, title:'Food & Health',   grammar:'Like / don\'t like · Countable & uncountable',tags:['Food','Health','Eating'],             stripe:'s5', live:true, url:'https://simplylingua.netlify.app/unit5.html' },
+  { n:6, title:'Getting Around',  grammar:'Present continuous · -ing spelling rules',    tags:['Transport','Travel','Actions now'],   stripe:'s6', live:true, url:'https://simplylingua.netlify.app/unit6.html' },
+  { n:7, title:'Work & Plans',    grammar:'Going to — future plans',                     tags:['Work','Future','Plans'],              stripe:'s7', live:true, url:'https://simplylingua.netlify.app/unit7.html' },
+  { n:8, title:'Looking Back',    grammar:'Past simple — regular & irregular verbs',     tags:['Past','Stories','Memories'],         stripe:'s8', live:true, url:'https://simplylingua.netlify.app/unit8.html' },
 ];
 
 document.getElementById('units-grid').innerHTML = UNITS.map(u => `
-  <a class="unit-card${u.live ? '' : ' soon'}" href="${u.live ? u.url : '#pricing'}" ${u.live ? 'target="_blank"' : ''}>
+  <a class="unit-card${u.live ? '' : ' soon'}" href="${u.live ? u.url : '#pricing'}">
     <div class="uc-stripe ${u.stripe}"></div>
     <div class="uc-body">
       <div class="uc-top">
