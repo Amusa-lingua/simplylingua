@@ -1,0 +1,782 @@
+<title>SimplyLingua Online Academy</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600;1,700&family=Inter:wght@400;500;600;700&display=swap">
+
+<style>
+:root {
+  --linen:       #F4EDE4;
+  --linen-mid:   #EDE4D8;
+  --linen-dark:  #E0D5C5;
+  --surface:     #FDFAF6;
+  --card:        #FFFFFF;
+  --navy:        #1B2D4F;
+  --navy-light:  #243761;
+  --amber:       #D97B2A;
+  --amber-light: #F2C48A;
+  --ink:         #1A1A1A;
+  --ink2:        #4A4A4A;
+  --ink3:        #7A7A7A;
+  --teal:        #028090;
+  --border:      #DDD5C8;
+  --green:       #2D7A4F;
+  --r:           14px;
+  --shadow:      0 2px 16px rgba(27,45,79,.08);
+  --shadow-lg:   0 8px 40px rgba(27,45,79,.14);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --linen:       #1C1610; --linen-mid:   #231D15; --linen-dark:  #2A221A;
+    --surface:     #17130D; --card:        #211D14;
+    --navy:        #A8BEDD; --navy-light:  #C4D4EA;
+    --amber:       #E8943A; --amber-light: #A05A18;
+    --ink:         #F0E8DC; --ink2:        #C0B4A4; --ink3:        #8A7E72;
+    --teal:        #3FAFBE; --border:      #3A342A;
+    --green:       #5DBF82;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --linen:       #1C1610; --linen-mid:   #231D15; --linen-dark:  #2A221A;
+  --surface:     #17130D; --card:        #211D14;
+  --navy:        #A8BEDD; --navy-light:  #C4D4EA;
+  --amber:       #E8943A; --amber-light: #A05A18;
+  --ink:         #F0E8DC; --ink2:        #C0B4A4; --ink3:        #8A7E72;
+  --teal:        #3FAFBE; --border:      #3A342A;
+  --green:       #5DBF82;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--surface); color: var(--ink);
+  line-height: 1.6;
+  padding-left: max(0px, env(safe-area-inset-left, 0px));
+  padding-right: max(0px, env(safe-area-inset-right, 0px));
+}
+
+/* ── Hex watermark ── */
+.hex-bg { position: relative; overflow: hidden; }
+.hex-bg::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='69'%3E%3Cpolygon points='30,2 58,17 58,52 30,67 2,52 2,17' fill='none' stroke='%23C8B89A' stroke-width='0.9' opacity='0.28'/%3E%3C/svg%3E");
+  background-size: 60px 69px;
+}
+.hex-bg > * { position: relative; z-index: 1; }
+
+/* ── Shared layout ── */
+.wrap { max-width: 1080px; margin-inline: auto; padding-inline: max(24px, env(safe-area-inset-left, 0px)); }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--navy); background: rgba(27,45,79,.08);
+  padding: 5px 14px; border-radius: 40px; margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+  font-weight: 700; line-height: 1.15; text-wrap: balance; color: var(--ink);
+}
+.section-title em { font-style: italic; color: var(--navy); }
+
+.btn-amber {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--amber); color: #fff;
+  font-family: 'Inter', sans-serif; font-weight: 700; font-size: .9rem;
+  padding: 14px 28px; border-radius: 40px; border: none; cursor: pointer;
+  text-decoration: none; transition: transform .18s, box-shadow .18s;
+  box-shadow: 0 4px 18px rgba(217,123,42,.3);
+}
+.btn-amber:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(217,123,42,.4); }
+
+.btn-navy {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: #fff;
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: .9rem;
+  padding: 14px 28px; border-radius: 40px; border: none; cursor: pointer;
+  text-decoration: none; transition: transform .18s, box-shadow .18s;
+}
+.btn-navy:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(27,45,79,.25); }
+
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: transparent; color: var(--navy);
+  font-family: 'Inter', sans-serif; font-weight: 600; font-size: .88rem;
+  padding: 12px 24px; border-radius: 40px; border: 2px solid var(--navy);
+  cursor: pointer; text-decoration: none; transition: all .18s;
+}
+.btn-outline:hover { background: var(--navy); color: #fff; }
+
+/* ══════════ NAV ══════════ */
+nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 100;
+  background: rgba(244,237,228,.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) nav { background: rgba(23,19,13,.92); } }
+:root[data-theme="dark"] nav { background: rgba(23,19,13,.92); }
+
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-block: 13px;
+  padding-inline: max(24px, env(safe-area-inset-left, 0px));
+  max-width: 1080px; margin-inline: auto; gap: 20px;
+}
+
+/* Logo — placeholder slot for your designed logo */
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo-slot {
+  /* When you have your logo, replace this entire .logo-slot with an <img> */
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--navy); display: grid; place-items: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.logo-wordmark {
+  display: flex; flex-direction: column; line-height: 1;
+}
+.logo-wordmark-main {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.1rem; font-weight: 700; color: var(--navy); letter-spacing: -.01em;
+}
+.logo-wordmark-main span { color: var(--amber); }
+.logo-wordmark-sub {
+  font-size: .58rem; font-weight: 700; letter-spacing: .13em;
+  text-transform: uppercase; color: var(--ink3); margin-top: 1px;
+}
+.nav-domain {
+  font-size: .68rem; font-weight: 600; color: var(--ink3);
+  background: var(--linen-mid); border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 20px; letter-spacing: .02em;
+}
+.nav-links { display: flex; align-items: center; gap: 26px; list-style: none; }
+.nav-links a { font-size: .85rem; font-weight: 500; color: var(--ink2); text-decoration: none; transition: color .15s; }
+.nav-links a:hover { color: var(--navy); }
+.nav-actions { display: flex; align-items: center; gap: 10px; }
+.theme-toggle {
+  background: var(--linen-mid); border: 1px solid var(--border);
+  border-radius: 8px; padding: 7px 11px; cursor: pointer; font-size: .82rem;
+  color: var(--ink3); line-height: 1; transition: background .15s;
+}
+.theme-toggle:hover { background: var(--linen-dark); }
+@media (max-width: 680px) { .nav-links { display: none; } .nav-domain { display: none; } }
+
+/* ══════════ HERO ══════════ */
+.hero {
+  background: linear-gradient(155deg, #F0E6D8 0%, #EAD9C4 35%, #F4ECE0 70%, #EDE3D5 100%);
+  padding-block: 92px 76px;
+}
+.hero-inner {
+  display: grid; grid-template-columns: 1.1fr .9fr;
+  gap: 60px; align-items: center;
+}
+.hero-kicker {
+  font-size: .68rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--navy); display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+}
+.hero-kicker::before { content: ''; width: 28px; height: 2px; background: var(--amber); }
+.hero-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.4rem, 5.5vw, 4rem);
+  font-weight: 800; line-height: 1.08; text-wrap: balance; color: var(--ink);
+  margin-bottom: 22px;
+}
+.hero-title em { font-style: italic; color: var(--navy); }
+.hero-title .a { color: var(--amber); }
+.hero-body { font-size: 1.03rem; color: var(--ink2); line-height: 1.8; max-width: 46ch; margin-bottom: 32px; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+.hero-note { font-size: .75rem; color: var(--ink3); }
+.hero-note strong { color: var(--ink2); }
+
+/* Hero right panel */
+.hero-panel { display: flex; flex-direction: column; gap: 14px; }
+.hp-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 20px 22px; box-shadow: var(--shadow);
+}
+.hp-card-navy { background: var(--navy); border-color: var(--navy); }
+.hp-label { font-size: .62rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 4px; }
+.hp-card-navy .hp-label { color: rgba(255,255,255,.45); }
+.hp-val { font-family: 'Playfair Display', serif; font-size: 2.1rem; font-weight: 700; color: var(--navy); line-height: 1; }
+.hp-card-navy .hp-val { color: var(--amber-light); }
+.hp-sub { font-size: .76rem; color: var(--ink3); margin-top: 2px; }
+.hp-card-navy .hp-sub { color: rgba(255,255,255,.45); }
+.hp-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.hp-lesson {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px 18px; box-shadow: var(--shadow);
+}
+.hp-lesson-icon {
+  width: 40px; height: 40px; border-radius: 9px;
+  background: var(--linen-mid); display: grid; place-items: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.hp-progress { height: 5px; background: var(--border); border-radius: 3px; margin-top: 7px; overflow: hidden; }
+.hp-fill { height: 100%; background: linear-gradient(90deg, var(--teal), var(--amber)); border-radius: 3px; width: 60%; }
+.hp-somali {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 14px 18px; box-shadow: var(--shadow);
+}
+
+@media (max-width: 740px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+  .hero-panel { display: grid; grid-template-columns: 1fr 1fr; }
+  .hp-lesson { grid-column: 1 / -1; }
+  .hp-somali { grid-column: 1 / -1; }
+}
+
+/* ══════════ STATS STRIP ══════════ */
+.stats {
+  background: var(--navy); padding-block: 44px;
+}
+.stats-inner {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  max-width: 900px; margin-inline: auto; padding-inline: 24px;
+}
+.stat {
+  flex: 1; min-width: 150px; text-align: center;
+  padding: 12px 20px; border-right: 1px solid rgba(255,255,255,.1);
+}
+.stat:last-child { border-right: none; }
+.stat-n { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--amber-light); line-height: 1; }
+.stat-l { font-size: .76rem; color: rgba(255,255,255,.5); margin-top: 4px; letter-spacing: .04em; }
+
+/* ══════════ HOW IT WORKS ══════════ */
+.how { padding-block: 88px; background: var(--linen); }
+.how-head { text-align: center; margin-bottom: 52px; }
+.steps {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2px; background: var(--border);
+  border-radius: calc(var(--r) + 2px); overflow: hidden;
+}
+.step { background: var(--card); padding: 32px 26px; }
+.step-num {
+  width: 38px; height: 38px; background: var(--navy); color: var(--amber-light);
+  font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700;
+  border-radius: 50%; display: grid; place-items: center; margin-bottom: 14px;
+}
+.step-icon { font-size: 1.4rem; margin-bottom: 8px; }
+.step h3 { font-family: 'Playfair Display', serif; font-size: 1.03rem; font-weight: 600; margin-bottom: 7px; color: var(--ink); }
+.step p { font-size: .86rem; color: var(--ink2); line-height: 1.72; }
+
+/* ══════════ UNITS ══════════ */
+.units { padding-block: 88px; background: var(--surface); }
+.units-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 36px; flex-wrap: wrap; gap: 16px;
+}
+.units-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 18px; }
+.unit-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow);
+  text-decoration: none; color: var(--ink); display: block;
+  transition: transform .2s, box-shadow .2s;
+}
+.unit-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.unit-card.soon { cursor: default; }
+.unit-card.soon:hover { transform: none; box-shadow: var(--shadow); }
+.uc-stripe { height: 6px; }
+.uc-body { padding: 20px 22px; }
+.uc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.uc-num { font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--ink3); }
+.uc-badge { font-size: .66rem; padding: 3px 10px; border-radius: 20px; font-weight: 700; }
+.badge-live { background: rgba(45,122,79,.12); color: var(--green); }
+.badge-soon { background: rgba(217,123,42,.1); color: #9A5514; }
+.uc-title { font-family: 'Playfair Display', serif; font-size: 1.03rem; font-weight: 600; margin-bottom: 4px; }
+.uc-grammar { font-size: .79rem; color: var(--ink3); margin-bottom: 14px; }
+.uc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+.uc-tag {
+  background: var(--linen); color: var(--navy);
+  border: 1px solid var(--border); font-size: .67rem; font-weight: 600;
+  padding: 2px 9px; border-radius: 10px;
+}
+
+/* ══════════ WHY ══════════ */
+.why { padding-block: 88px; background: var(--linen); }
+.why-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;
+}
+.why-items { margin-top: 24px; }
+.why-item {
+  display: flex; gap: 18px; align-items: flex-start;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.why-item:first-child { padding-top: 0; }
+.why-item:last-child { border-bottom: none; }
+.wi-icon {
+  width: 44px; height: 44px; border-radius: 11px;
+  background: var(--card); border: 1px solid var(--border);
+  display: grid; place-items: center; font-size: 1.2rem; flex-shrink: 0;
+}
+.wi-h { font-weight: 600; font-size: .95rem; margin-bottom: 3px; color: var(--ink); }
+.wi-p { font-size: .85rem; color: var(--ink2); line-height: 1.72; }
+.why-quote {
+  background: var(--navy); border-radius: calc(var(--r)*1.5); padding: 40px 36px;
+}
+.wq-mark {
+  font-family: 'Playfair Display', serif; font-size: 4rem; color: var(--amber);
+  line-height: .7; display: block; margin-bottom: 14px;
+}
+.wq-text {
+  font-family: 'Playfair Display', serif; font-size: 1.25rem; font-style: italic;
+  line-height: 1.65; color: #fff; margin-bottom: 24px;
+}
+.wq-name { font-size: .85rem; font-weight: 700; color: var(--amber-light); }
+.wq-role { font-size: .76rem; color: rgba(255,255,255,.45); margin-top: 2px; }
+.wq-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.1);
+}
+.wqs-n { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--amber-light); }
+.wqs-l { font-size: .72rem; color: rgba(255,255,255,.45); margin-top: 2px; }
+@media (max-width: 720px) { .why-inner { grid-template-columns: 1fr; } .why-quote { order: -1; } }
+
+/* ══════════ PRICING ══════════ */
+.pricing { padding-block: 88px; background: var(--surface); }
+.pricing-head { text-align: center; margin-bottom: 44px; }
+.pricing-sub { font-size: 1rem; color: var(--ink2); line-height: 1.75; max-width: 50ch; margin-inline: auto; margin-top: 12px; }
+.pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(255px, 1fr)); gap: 20px; max-width: 740px; margin-inline: auto; }
+.pc {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 32px 28px; box-shadow: var(--shadow);
+  position: relative;
+}
+.pc.featured { border-color: var(--navy); border-width: 2px; }
+.pc-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--amber); color: #fff; font-size: .64rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; padding: 4px 16px; border-radius: 20px; white-space: nowrap;
+}
+.pc-plan { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--ink3); margin-bottom: 8px; }
+.pc-price { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--navy); line-height: 1; }
+.pc-price small { font-size: .88rem; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--ink3); }
+.pc-desc { font-size: .84rem; color: var(--ink2); margin: 10px 0 18px; line-height: 1.6; }
+.pc-feats { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; }
+.pc-feats li { font-size: .84rem; color: var(--ink2); display: flex; gap: 9px; align-items: flex-start; }
+.pc-feats li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.pc-pay { font-size: .71rem; color: var(--ink3); margin-top: 10px; line-height: 1.5; }
+.pc-pay strong { color: var(--navy); }
+.pricing-note { font-size: .78rem; color: var(--ink3); text-align: center; margin-top: 20px; }
+
+/* ══════════ FAQ ══════════ */
+.faq { padding-block: 88px; background: var(--linen); }
+.faq-head { text-align: center; margin-bottom: 40px; }
+.faq-wrap { max-width: 660px; margin-inline: auto; }
+.fi { border-bottom: 1px solid var(--border); }
+.fi-q {
+  width: 100%; background: none; border: none; text-align: left;
+  padding: 18px 0; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  font-family: 'Playfair Display', serif; font-size: .97rem; font-weight: 600; color: var(--ink);
+  transition: color .15s;
+}
+.fi-q:hover { color: var(--navy); }
+.fi-arr { font-size: .74rem; color: var(--ink3); flex-shrink: 0; transition: transform .25s; }
+.fi.open .fi-arr { transform: rotate(180deg); }
+.fi-a { display: none; padding-bottom: 16px; font-size: .88rem; color: var(--ink2); line-height: 1.8; }
+.fi.open .fi-a { display: block; }
+
+/* ══════════ CTA BAND ══════════ */
+.cta { background: var(--navy); padding-block: 80px; text-align: center; }
+.cta h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; color: #fff;
+  text-wrap: balance; margin-bottom: 12px;
+}
+.cta p { font-size: 1rem; color: rgba(255,255,255,.6); margin-bottom: 28px; max-width: 46ch; margin-inline: auto; }
+
+/* ══════════ FOOTER ══════════ */
+footer { background: #0F1E36; color: rgba(255,255,255,.5); padding-block: 56px 28px; }
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  max-width: 1080px; margin-inline: auto;
+  padding-inline: max(24px, env(safe-area-inset-left, 0px));
+  margin-bottom: 36px;
+}
+.footer-brand { }
+.footer-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.footer-logo-mark { width: 36px; height: 36px; background: var(--navy-light); border-radius: 9px; display: grid; place-items: center; font-size: 1rem; }
+.footer-brand-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: #fff; }
+.footer-domain { font-size: .72rem; color: rgba(255,255,255,.35); margin-bottom: 10px; }
+.footer-desc { font-size: .82rem; line-height: 1.75; max-width: 30ch; }
+.fc h4 { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.28); margin-bottom: 12px; }
+.fc ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.fc a { font-size: .83rem; color: rgba(255,255,255,.45); text-decoration: none; transition: color .15s; }
+.fc a:hover { color: var(--amber-light); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.07); padding-top: 20px;
+  font-size: .75rem; text-align: center;
+  max-width: 1080px; margin-inline: auto; padding-inline: 24px;
+}
+@media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; gap: 28px; } }
+
+/* stripe colours */
+.s1 { background: #1B2D4F; }
+.s2 { background: #5B3E8A; }
+.s3 { background: #0E7490; }
+.s4 { background: #16A34A; }
+.s5 { background: #B45309; }
+.s6 { background: #BE185D; }
+.s7 { background: #1D4ED8; }
+.s8 { background: #D97B2A; }
+</style>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-inner">
+    <!-- LOGO SLOT: replace .logo-slot div with <img src="your-logo.svg" …> when ready -->
+    <a href="#" class="nav-logo" aria-label="SimplyLingua home">
+      <div class="logo-slot" aria-hidden="true">🎓</div>
+      <div class="logo-wordmark">
+        <span class="logo-wordmark-main">Simply<span>Lingua</span></span>
+        <span class="logo-wordmark-sub">Online Academy</span>
+      </div>
+    </a>
+    <span class="nav-domain">www.simplylingua.com</span>
+    <ul class="nav-links" role="list">
+      <li><a href="#units">Course</a></li>
+      <li><a href="#why">Why us</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode" id="themeBtn">🌙</button>
+      <a href="#pricing" class="btn-navy" style="padding:9px 20px;font-size:.84rem;">Enrol now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero hex-bg">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-kicker">Now enrolling · A2 English · Somali learners</div>
+        <h1 class="hero-title">
+          English that fits your <em>real</em> life<span class="a">.</span>
+        </h1>
+        <p class="hero-body">SimplyLingua is a structured A2 English course built for Somali adult learners — with grammar explained in Af-Soomaali, real-life topics, and units you can do from any phone.</p>
+        <div class="hero-actions">
+          <a href="#units" class="btn-amber">▶ See the course</a>
+          <a href="#pricing" class="btn-outline">View pricing</a>
+        </div>
+        <p class="hero-note"><strong>Pay via:</strong> Zaad · EVC Plus · Golis &nbsp;·&nbsp; No credit card needed</p>
+      </div>
+      <div class="hero-panel">
+        <div class="hp-row">
+          <div class="hp-card">
+            <div class="hp-label">Units</div>
+            <div class="hp-val">8</div>
+            <div class="hp-sub">Full A2 curriculum</div>
+          </div>
+          <div class="hp-card hp-card-navy">
+            <div class="hp-label">Level</div>
+            <div class="hp-val">A2</div>
+            <div class="hp-sub">CEFR standard</div>
+          </div>
+        </div>
+        <div class="hp-lesson">
+          <div class="hp-lesson-icon">📖</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)">Now available</div>
+            <div style="font-size:.92rem;font-weight:600;color:var(--ink);margin-top:2px">Unit 1 · Who I Am</div>
+            <div class="hp-progress"><div class="hp-fill"></div></div>
+          </div>
+        </div>
+        <div class="hp-somali">
+          <span style="font-size:1.6rem">🇸🇴</span>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:.92rem;font-weight:600;color:var(--navy)">Af-Soomaali notes</div>
+            <div style="font-size:.76rem;color:var(--ink3)">Grammar explained in your language</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STATS ══ -->
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-n">8</div><div class="stat-l">Structured units</div></div>
+    <div class="stat"><div class="stat-n">A2</div><div class="stat-l">CEFR target level</div></div>
+    <div class="stat"><div class="stat-n">45–60</div><div class="stat-l">Minutes per unit</div></div>
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Mobile friendly</div></div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="how hex-bg" id="how">
+  <div class="wrap">
+    <div class="how-head">
+      <div class="eyebrow" style="margin-inline:auto">How it works</div>
+      <h2 class="section-title" style="text-align:center">Four steps to <em>confident</em> English</h2>
+      <p style="font-size:.97rem;color:var(--ink2);text-align:center;margin-top:12px;max-width:46ch;margin-inline:auto">Every unit follows the same structure — so you always know what to expect.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">📖</div>
+        <div class="step-num">1</div>
+        <h3>Read &amp; Listen</h3>
+        <p>Start with a real story or dialogue. Hear the language naturally before you study any grammar.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">🔍</div>
+        <div class="step-num">2</div>
+        <h3>Notice the Pattern</h3>
+        <p>Find the grammar rule yourself using a word box — then the grammar table confirms what you discovered.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">✏️</div>
+        <div class="step-num">3</div>
+        <h3>Practise</h3>
+        <p>Gap-fills, drag-and-drop sentences, and comprehension checks build real confidence before the quiz.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon">🧪</div>
+        <div class="step-num">4</div>
+        <h3>Test Yourself</h3>
+        <p>A graded 10-question quiz with instant feedback and a star rating shows exactly how well you understood.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ UNITS ══ -->
+<section class="units" id="units">
+  <div class="wrap">
+    <div class="units-head">
+      <div>
+        <div class="eyebrow">The course</div>
+        <h2 class="section-title">8 units · Full A2 curriculum</h2>
+      </div>
+      <a href="#pricing" class="btn-outline" style="white-space:nowrap">Enrol to unlock all →</a>
+    </div>
+    <div class="units-grid" id="units-grid"></div>
+  </div>
+</section>
+
+<!-- ══ WHY ══ -->
+<section class="why hex-bg" id="why">
+  <div class="wrap">
+    <div class="why-inner">
+      <div>
+        <div class="eyebrow">Why SimplyLingua</div>
+        <h2 class="section-title">Built for you, <em>not for everyone.</em></h2>
+        <div class="why-items">
+          <div class="why-item">
+            <div class="wi-icon">🇸🇴</div>
+            <div>
+              <div class="wi-h">Af-Soomaali grammar notes</div>
+              <p class="wi-p">Every unit has a study notes table with key grammar and vocabulary translated into Af-Soomaali — so you understand new language in your own language first.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="wi-icon">📚</div>
+            <div>
+              <div class="wi-h">Textbook quality, digital convenience</div>
+              <p class="wi-p">Aligned with Cambridge Open World A2 — the same grammar sequences and exercise types used in top international classrooms.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="wi-icon">🎮</div>
+            <div>
+              <div class="wi-h">Gamified to keep you going</div>
+              <p class="wi-p">XP points, hearts, and streak counters turn every unit into a game. Every correct answer builds your score in real time.</p>
+            </div>
+          </div>
+          <div class="why-item">
+            <div class="wi-icon">📱</div>
+            <div>
+              <div class="wi-h">Works on any phone</div>
+              <p class="wi-p">No app to download. Open any unit in your phone browser. Designed for mobile-first learners with slow connections.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="why-quote">
+        <span class="wq-mark">"</span>
+        <p class="wq-text">English is not easy, but it is important for my job. I needed a course that understood where I come from — SimplyLingua does that.</p>
+        <div class="wq-name">Hodan A.</div>
+        <div class="wq-role">Nurse · Nairobi · SimplyLingua student</div>
+        <div class="wq-stats">
+          <div><div class="wqs-n">A2</div><div class="wqs-l">CEFR target</div></div>
+          <div><div class="wqs-n">8</div><div class="wqs-l">Complete units</div></div>
+          <div><div class="wqs-n">100%</div><div class="wqs-l">Mobile ready</div></div>
+          <div><div class="wqs-n">🇸🇴</div><div class="wqs-l">Af-Soomaali</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <div class="pricing-head">
+      <div class="eyebrow" style="margin-inline:auto">Pricing</div>
+      <h2 class="section-title">Simple, <em>affordable</em> access</h2>
+      <p class="pricing-sub">No credit card needed. Pay using Zaad, EVC Plus or Golis — then send your receipt to WhatsApp for instant activation.</p>
+    </div>
+    <div class="pricing-cards">
+      <div class="pc">
+        <div class="pc-plan">Single unit</div>
+        <div class="pc-price">$3 <small>/ unit</small></div>
+        <p class="pc-desc">Try one unit before committing to the full course.</p>
+        <ul class="pc-feats">
+          <li>Full unit access</li>
+          <li>Practice exercises</li>
+          <li>Graded quiz</li>
+          <li>Af-Soomaali notes</li>
+        </ul>
+        <a href="#" class="btn-outline" style="width:100%;justify-content:center">Get started</a>
+        <p class="pc-pay">Pay via <strong>Zaad · EVC Plus · Golis</strong></p>
+      </div>
+      <div class="pc featured">
+        <div class="pc-badge">Best value</div>
+        <div class="pc-plan">Full course</div>
+        <div class="pc-price">$15 <small>/ 8 units</small></div>
+        <p class="pc-desc">All 8 units, unlimited access, plus new units free as they are added.</p>
+        <ul class="pc-feats">
+          <li>All 8 units</li>
+          <li>All practice exercises</li>
+          <li>All graded quizzes</li>
+          <li>Af-Soomaali study notes</li>
+          <li>Future units included</li>
+          <li>WhatsApp teacher support</li>
+        </ul>
+        <a href="#" class="btn-amber" style="width:100%;justify-content:center">Enrol now</a>
+        <p class="pc-pay">Pay via <strong>Zaad · EVC Plus · Golis</strong></p>
+      </div>
+    </div>
+    <p class="pricing-note">After payment, send your receipt to WhatsApp and your account will be activated within 24 hours.</p>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="faq-head">
+      <div class="eyebrow" style="margin-inline:auto">FAQ</div>
+      <h2 class="section-title" style="text-align:center">Common <em>questions</em></h2>
+    </div>
+    <div class="faq-wrap" id="faq-container"></div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<section class="cta">
+  <div class="wrap" style="text-align:center">
+    <h2>Ready to start your English journey?</h2>
+    <p>Begin with Unit 1 — free to preview. No credit card, no app, no problem.</p>
+    <a href="#pricing" class="btn-amber">Enrol now — from $3</a>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <!-- LOGO SLOT: replace .footer-logo-mark with your logo when ready -->
+      <div class="footer-logo-row">
+        <div class="footer-logo-mark" aria-hidden="true">🎓</div>
+        <span class="footer-brand-name">SimplyLingua</span>
+      </div>
+      <div class="footer-domain">www.simplylingua.com</div>
+      <p class="footer-desc">A structured A2 English course for Somali adult learners. Real grammar. Real language. Real support.</p>
+    </div>
+    <div class="fc">
+      <h4>Course</h4>
+      <ul>
+        <li><a href="#units">All units</a></li>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="fc">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#">WhatsApp us</a></li>
+        <li><a href="#">Payment guide</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 SimplyLingua Online Academy · www.simplylingua.com · All rights reserved</div>
+</footer>
+
+<script>
+/* ── Theme ── */
+const root = document.documentElement;
+const themeBtn = document.getElementById('themeBtn');
+(function(){
+  try {
+    const s = localStorage.getItem('sl_theme');
+    if (s) { root.setAttribute('data-theme', s); themeBtn.textContent = s === 'dark' ? '☀️' : '🌙'; }
+  } catch(e){}
+})();
+function toggleTheme() {
+  const cur = root.getAttribute('data-theme') || 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
+  try { localStorage.setItem('sl_theme', next); } catch(e){}
+}
+
+/* ── Units ── */
+const UNITS = [
+  { n:1, title:'Who I Am',           grammar:'The verb to be (am / is / are)',       tags:['Introductions','Identity','Jobs'],  stripe:'s1', live:true,  url:'https://claude.ai/artifact/EdyM4rYF2BaWqfhZJYGr3m' },
+  { n:2, title:'A Busy Life',        grammar:'Present simple — daily routines',       tags:['Routines','Time','Work'],            stripe:'s2', live:false },
+  { n:3, title:'Changing World',     grammar:'Present continuous',                    tags:['Actions now','Progress'],            stripe:'s3', live:false },
+  { n:4, title:'Free Time',          grammar:"Can / can't — ability",                 tags:['Hobbies','Ability'],                 stripe:'s4', live:false },
+  { n:5, title:'Have You Got…?',     grammar:'Have got — possession',                 tags:['Family','Possessions'],              stripe:'s5', live:false },
+  { n:6, title:'Keep Fit, Feel Good',grammar:"Should / shouldn't — advice",           tags:['Health','Advice'],                   stripe:'s6', live:false },
+  { n:7, title:'A Good Holiday',     grammar:'Past simple — regular & irregular',     tags:['Travel','Past events'],              stripe:'s7', live:false },
+  { n:8, title:'Feels Like Home',    grammar:'There is / are · Prepositions of place',tags:['Home','Location'],                   stripe:'s8', live:false },
+];
+
+document.getElementById('units-grid').innerHTML = UNITS.map(u => `
+  <a class="unit-card${u.live ? '' : ' soon'}" href="${u.live ? u.url : '#pricing'}" ${u.live ? 'target="_blank"' : ''}>
+    <div class="uc-stripe ${u.stripe}"></div>
+    <div class="uc-body">
+      <div class="uc-top">
+        <span class="uc-num">Unit ${u.n}</span>
+        <span class="uc-badge ${u.live ? 'badge-live' : 'badge-soon'}">${u.live ? '✓ Available' : 'Coming soon'}</span>
+      </div>
+      <div class="uc-title">${u.title}</div>
+      <div class="uc-grammar">${u.grammar}</div>
+      <div class="uc-tags">${u.tags.map(t => `<span class="uc-tag">${t}</span>`).join('')}</div>
+    </div>
+  </a>`).join('');
+
+/* ── FAQ ── */
+const FAQS = [
+  { q:'Do I need to know any English to start?', a:'No. Unit 1 starts from zero — we assume no previous English knowledge. The course is designed for complete beginners working toward A2 level.' },
+  { q:"How do I pay if I don't have a credit card?", a:'We accept Zaad, EVC Plus, and Golis mobile money. After you send your payment, forward the receipt to our WhatsApp and we will activate your account within 24 hours.' },
+  { q:'How long does each unit take?', a:'Each unit takes about 45–60 minutes to complete fully, including the reading, grammar study, practice exercises, and quiz. You can also work through it in shorter sessions.' },
+  { q:'Are the grammar explanations in Somali?', a:'Yes. Every unit includes a Study Notes table with key grammar patterns and vocabulary translated into Af-Soomaali, so you can understand new concepts in your own language first.' },
+  { q:'What level is this course?', a:'The course targets A2 level on the Common European Framework of Reference (CEFR). It covers the same grammar points as Cambridge Open World A2 — the international standard for this level.' },
+  { q:'Can I access the units on my phone?', a:'Yes. All units open directly in your phone browser — no app to download. They are designed for mobile-first learners and work on slow data connections.' },
+  { q:'What happens when I finish all 8 units?', a:'New units are added regularly. Full course enrolment includes all future units at no extra cost.' },
+];
+
+document.getElementById('faq-container').innerHTML = FAQS.map((f,i) => `
+  <div class="fi" id="fi${i}">
+    <button class="fi-q" onclick="toggleFaq(${i})">${f.q}<span class="fi-arr">▼</span></button>
+    <div class="fi-a">${f.a}</div>
+  </div>`).join('');
+
+function toggleFaq(i) {
+  const el = document.getElementById('fi' + i);
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.fi').forEach(e => e.classList.remove('open'));
+  if (!wasOpen) el.classList.add('open');
+}
+</script>

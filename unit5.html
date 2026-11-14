@@ -1,0 +1,371 @@
+<title>Food & Health</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{--linen:#F4EDE4;--linen-mid:#EDE4D8;--surface:#FDFAF6;--card:#FFFFFF;--navy:#1B2D4F;--navy-light:#243761;--amber:#D97B2A;--amber-light:#F2C48A;--ink:#1A1A1A;--ink2:#4A4A4A;--ink3:#7A7A7A;--teal:#028090;--border:#DDD5C8;--success:#2D7A4F;--success-bg:#E8F5EE;--error:#B03A2E;--error-bg:#FDECEA;--warn-bg:#FFF8EC;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--linen:#1E1912;--linen-mid:#252016;--surface:#17130D;--card:#211D14;--navy:#A8BEDD;--navy-light:#C4D4EA;--amber:#E8943A;--amber-light:#A05A18;--ink:#F0EAE0;--ink2:#C8BFB0;--ink3:#8A8070;--teal:#3FAFBE;--border:#3A342A;--success:#5DBF82;--success-bg:#0D2619;--error:#E06655;--error-bg:#2A100D;--warn-bg:#251E0A;color-scheme:dark}}
+:root[data-theme="dark"]{--linen:#1E1912;--linen-mid:#252016;--surface:#17130D;--card:#211D14;--navy:#A8BEDD;--navy-light:#C4D4EA;--amber:#E8943A;--amber-light:#A05A18;--ink:#F0EAE0;--ink2:#C8BFB0;--ink3:#8A8070;--teal:#3FAFBE;--border:#3A342A;--success:#5DBF82;--success-bg:#0D2619;--error:#E06655;--error-bg:#2A100D;--warn-bg:#251E0A;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--linen);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.topbar{background:var(--navy);color:#fff;margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding:14px max(20px,env(safe-area-inset-left,0px));display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
+.topbar-brand{font-family:'Playfair Display',Georgia,serif;font-size:1.1rem;font-weight:700;color:#fff}.topbar-brand span{color:var(--amber)}
+.unit-badge{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:3px 10px;border-radius:20px;white-space:nowrap}
+.theme-btn{background:rgba(255,255,255,.12);border:none;color:rgba(255,255,255,.8);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.theme-btn:hover{background:rgba(255,255,255,.22)}
+.hud{background:var(--surface);border-bottom:1px solid var(--border);margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding:10px max(20px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:16px}
+.hud-xp{flex:1}.hud-label{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:3px}
+.xp-bar{height:7px;background:var(--border);border-radius:4px;overflow:hidden}.xp-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));border-radius:4px;transition:width .4s ease;width:0%}
+.hud-xp-val{font-size:.72rem;color:var(--ink3);margin-top:2px}.hud-streak{text-align:center}.hud-streak .val{font-size:1.1rem;font-weight:700;color:var(--amber)}
+.tab-nav{background:var(--surface);margin-left:calc(-1 * max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1 * max(16px,env(safe-area-inset-right,0px)));border-bottom:2px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;padding:12px 18px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3);cursor:pointer;transition:color .2s,border-color .2s;white-space:nowrap}
+.tab-btn:hover{color:var(--navy)}.tab-btn.active{color:var(--navy);border-bottom-color:var(--amber)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.unit-wrap{max-width:760px;margin:0 auto;padding-block:28px 60px}
+.sec-badge{display:inline-block;padding:4px 13px;border-radius:4px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.sec-grammar{background:#7C3AED;color:#fff}.sec-vocab{background:var(--amber);color:#1a1000}.sec-reading{background:#1565C0;color:#fff}.sec-listen{background:var(--teal);color:#fff}.sec-notice{background:#7c3aed;color:#fff}
+.lead-in{background:var(--navy);color:#fff;border-radius:12px;padding:28px 24px;margin-bottom:20px}
+.lead-in-title{font-family:'Playfair Display',Georgia,serif;font-size:1.75rem;font-weight:700;margin-bottom:4px;text-wrap:balance}
+.lead-in-sub{font-size:.85rem;opacity:.75;margin-bottom:18px}
+.lead-questions{background:rgba(255,255,255,.1);border-radius:8px;padding:14px 18px}
+.lead-questions p{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.7;margin:0 0 10px}
+.lead-questions ol{padding-left:20px;font-size:.95rem;line-height:2.1;margin:0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:22px 24px;margin-bottom:16px}
+.ctx-text{background:var(--surface);border-left:4px solid var(--teal);border-radius:0 10px 10px 0;padding:16px 20px;margin-bottom:16px;font-size:.97rem;line-height:1.9;color:var(--ink2)}
+.ctx-text p{margin:0 0 12px}.ctx-text p:last-child{margin-bottom:0}
+.hl{background:rgba(2,128,144,.14);border-radius:3px;padding:0 3px;font-weight:700;color:var(--teal)}
+.audio-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.audio-btn{display:inline-flex;align-items:center;gap:7px;background:var(--navy);color:#fff;border:none;border-radius:6px;padding:7px 16px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s}
+.audio-btn:hover{background:var(--navy-light)}.audio-btn.ghost{background:var(--ink3)}
+.word-box{display:flex;flex-wrap:wrap;gap:7px;padding:10px 14px;background:var(--surface);border:1px solid var(--border);border-radius:8px;margin-bottom:14px}
+.word-box-label{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);width:100%;margin-bottom:2px}
+.wbox-word{background:var(--linen-mid);border:1.5px solid var(--border);color:var(--navy);padding:4px 14px;border-radius:20px;font-size:.85rem;font-weight:600;cursor:pointer}
+.wbox-word.selected{outline:2px solid var(--teal)}
+.ind-sentence{font-size:.95rem;margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;color:var(--ink2);line-height:2}
+.ind-blank{display:inline-block;border-bottom:2px solid var(--teal);min-width:70px;text-align:center;cursor:pointer;padding:1px 4px;border-radius:2px;transition:background .2s}
+.ind-blank:hover{background:var(--linen-mid)}.ind-blank.revealed{background:var(--teal);color:#fff;border-radius:4px;border-bottom-color:var(--teal)}.ind-blank.wrong-flash{background:var(--error-bg)}
+.gram-intro{font-size:.92rem;color:var(--ink2);margin-bottom:12px;line-height:1.7}
+.table-wrap{overflow-x:auto;margin-bottom:16px}
+.gram-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.gram-table th{background:var(--navy);color:#fff;padding:8px 12px;text-align:left;font-weight:600}
+.gram-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink2)}
+.gram-table tr:last-child td{border-bottom:none}.gram-table tr:nth-child(even) td{background:var(--linen)}
+.pro{color:var(--success);font-weight:600}.neg{color:var(--error);font-weight:600}
+.sec-head{font-family:'Playfair Display',Georgia,serif;font-size:1rem;color:var(--navy);margin:16px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.mini-gram{background:var(--warn-bg);border:1px solid var(--amber-light);border-radius:10px;padding:14px 18px;margin-bottom:14px}
+.mini-gram-title{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+.mini-gram-row{display:flex;gap:10px;font-size:.88rem;margin-bottom:5px;align-items:flex-start;flex-wrap:wrap;color:var(--ink2)}
+.vocab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.vocab-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s;user-select:none}
+.vocab-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(27,45,79,.1)}.vocab-card.playing{border-color:var(--teal)}
+.vocab-img{width:100%;aspect-ratio:4/3;background:var(--linen-mid);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.vocab-img-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--ink3)}
+.vocab-img-placeholder .ph-label{font-size:.64rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.5}
+.vocab-img img{width:100%;height:100%;object-fit:cover}
+.vocab-word-row{padding:10px 12px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border)}
+.vocab-word{font-weight:700;font-size:.95rem;color:var(--navy)}.vocab-speak{background:none;border:none;cursor:pointer;font-size:1rem;color:var(--teal);padding:2px;line-height:1}
+.gramref{border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden}
+.gramref-toggle{width:100%;background:var(--linen-mid);border:none;padding:12px 16px;text-align:left;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;color:var(--ink2);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.gramref-body{display:none;padding:16px;background:var(--card)}.gramref-body.open{display:block}
+.gap-sentence{font-size:.95rem;margin-bottom:10px;display:flex;flex-wrap:wrap;align-items:center;gap:5px;line-height:2.2;color:var(--ink2)}
+.gap-input{border:none;border-bottom:2px solid var(--amber);background:transparent;color:var(--ink);font-size:.95rem;font-family:'Inter',sans-serif;width:120px;text-align:center;outline:none;padding:0 2px}
+.gap-input.correct{border-bottom-color:var(--success);color:var(--success)}.gap-input.wrong{border-bottom-color:var(--error);color:var(--error)}
+.gap-hint{font-size:.74rem;color:var(--ink3);display:block;margin-bottom:10px;padding-left:4px}
+.word-bank{display:flex;flex-wrap:wrap;gap:7px;padding:10px;border:1px dashed var(--border);border-radius:8px;background:var(--surface);min-height:42px;margin-bottom:10px}
+.word-chip{background:var(--linen-mid);border:1.5px solid var(--border);color:var(--navy);padding:4px 12px;border-radius:20px;font-size:.84rem;font-weight:600;cursor:grab;user-select:none}
+.drop-zone{display:flex;flex-wrap:wrap;gap:7px;min-height:44px;padding:10px;border:2px dashed var(--border);border-radius:8px;margin-bottom:8px;align-items:center;transition:border-color .2s}
+.drop-zone.drag-over{border-color:var(--teal);background:var(--linen-mid)}
+.drag-result{font-size:.87rem;font-weight:600;min-height:18px;margin-top:4px}
+.drag-result.ok{color:var(--success)}.drag-result.bad{color:var(--error)}
+.comp-q{margin-bottom:14px;padding:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.comp-q p{font-weight:600;margin-bottom:8px;font-size:.95rem}
+.comp-opts label{display:flex;align-items:center;gap:8px;padding:5px 4px;cursor:pointer;border-radius:5px;transition:background .15s;font-size:.92rem;color:var(--ink2)}
+.comp-opts label:hover{background:var(--linen-mid)}.comp-opts input{accent-color:var(--teal)}
+.comp-fb{margin-top:7px;font-size:.84rem;font-weight:600;display:none}
+.comp-fb.ok{color:var(--success);display:block}.comp-fb.bad{color:var(--error);display:block}
+.btn{background:var(--navy);color:#fff;border:none;border-radius:7px;padding:9px 20px;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .15s;margin-top:4px}
+.btn:hover{background:var(--navy-light)}.btn:disabled{opacity:.45;cursor:default}.btn-ghost{background:var(--ink3)}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.fb-strip{border-radius:8px;padding:10px 16px;font-size:.87rem;font-weight:600;margin-top:10px;display:none}
+.fb-strip.ok{background:var(--success-bg);color:var(--success);display:block}.fb-strip.bad{background:var(--error-bg);color:var(--error);display:block}
+.quiz-q{margin-bottom:18px;padding:14px 16px;background:var(--surface);border-radius:10px;border:1px solid var(--border)}
+.quiz-q p{font-weight:600;margin-bottom:10px;line-height:1.5;font-size:.95rem;color:var(--ink)}
+.quiz-opts label{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;cursor:pointer;transition:background .15s;font-size:.91rem;color:var(--ink2)}
+.quiz-opts label:hover{background:var(--linen-mid)}.quiz-opts input{accent-color:var(--navy)}
+.quiz-opts label.ok-ans{background:var(--success-bg);color:var(--success);font-weight:600}.quiz-opts label.bad-ans{background:var(--error-bg);color:var(--error)}
+.score-banner{text-align:center;padding:28px 20px;background:var(--navy);color:#fff;border-radius:12px;margin-top:16px;display:none}
+.score-banner.show{display:block}.score-big{font-family:'Playfair Display',Georgia,serif;font-size:2.6rem;font-weight:700;line-height:1;color:var(--amber)}
+.score-stars{font-size:1.6rem;margin:8px 0}.score-msg{font-size:.95rem;opacity:.9;line-height:1.5}
+.retry-btn{margin-top:14px;background:#fff;color:var(--navy);border:none;padding:9px 24px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem}
+.exercise-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
+@media(max-width:520px){.lead-in-title{font-size:1.4rem}.vocab-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}}
+</style>
+
+<div class="topbar">
+  <div class="topbar-brand">Simply<span>Lingua</span></div>
+  <span class="unit-badge">Unit 5 · A2</span>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+</div>
+<div class="hud">
+  <div class="hud-xp">
+    <div class="hud-label">XP Progress</div>
+    <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+    <div class="hud-xp-val"><span id="xp-val">0</span> / 200 XP</div>
+  </div>
+  <div class="hud-streak"><div class="val" id="streak-val">0🔥</div><div class="hud-label">Streak</div></div>
+</div>
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="unit">📖 Unit</button>
+  <button class="tab-btn" data-tab="practice">✏️ Practice</button>
+  <button class="tab-btn" data-tab="quiz">🧪 Quiz</button>
+</nav>
+
+<div class="unit-wrap">
+<div class="tab-panel active" id="tab-unit">
+  <div class="lead-in">
+    <div class="lead-in-title">Food &amp; Health</div>
+    <div class="lead-in-sub">Unit 5 · Like / Don't Like &amp; Countable / Uncountable Nouns</div>
+    <div class="lead-questions">
+      <p>💬 Think about these questions</p>
+      <ol>
+        <li>What food do you like? What don't you like?</li>
+        <li>What do you eat to stay healthy?</li>
+        <li>Can you count this food? (rice, apple, water, egg)</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-badge sec-listen">🎧 Listening &amp; Reading</div>
+    <p style="font-size:.84rem;color:var(--ink3);margin-bottom:12px">Listen to Amina's story. Notice the words in <strong style="color:var(--teal)">teal</strong>.</p>
+    <div class="audio-row">
+      <button class="audio-btn" id="read-btn" onclick="playStory()">▶ Listen</button>
+      <button class="audio-btn ghost" onclick="stopStory()">⏹ Stop</button>
+    </div>
+    <audio id="story-audio" src="audio/unit5/story.mp3"></audio>
+    <div class="ctx-text" id="ctx">
+      <p>My name is Amina. I am from Djibouti, and I live in Birmingham now. I love cooking and eating good food. Food is very important to me!</p>
+      <p>I <span class="hl">like</span> fruit and vegetables very much. I <span class="hl">like</span> rice, lentils, and fish. I eat a lot of <span class="hl">fruit</span> — fruit is an uncountable noun in English when we talk about it in general, but we can say "three pieces of fruit" or "two apples".</p>
+      <p>I <span class="hl">don't like</span> very sweet food. I <span class="hl">don't like</span> fizzy drinks either. My doctor says I need to drink <span class="hl">water</span> every day — water is uncountable too! But I can say "two glasses of water".</p>
+      <p>Every day I eat <span class="hl">an egg</span> for breakfast. Eggs are countable — I can say one egg, two eggs. I also eat <span class="hl">some bread</span> — bread is uncountable. I love my morning routine. Good food makes me feel strong and happy!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-badge sec-notice">🔍 Notice the Language</div>
+    <p style="font-size:.85rem;color:var(--ink3);margin-bottom:14px">Select a word, then click a gap.</p>
+    <div class="word-box" id="wbox">
+      <span class="word-box-label">Word box</span>
+      <span class="wbox-word" onclick="selectWord(this,'like')">like</span>
+      <span class="wbox-word" onclick="selectWord(this,'don\'t like')">don't like</span>
+      <span class="wbox-word" onclick="selectWord(this,'likes')">likes</span>
+      <span class="wbox-word" onclick="selectWord(this,'doesn\'t like')">doesn't like</span>
+    </div>
+    <div>
+      <div class="ind-sentence">I <span class="ind-blank" data-ans="like" onclick="revealBlank(this)">____</span> rice and lentils.</div>
+      <div class="ind-sentence">I <span class="ind-blank" data-ans="don't like" onclick="revealBlank(this)">____</span> fizzy drinks.</div>
+      <div class="ind-sentence">She <span class="ind-blank" data-ans="likes" onclick="revealBlank(this)">____</span> fruit and vegetables.</div>
+      <div class="ind-sentence">He <span class="ind-blank" data-ans="doesn't like" onclick="revealBlank(this)">____</span> sweet food.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-badge sec-grammar">📐 Grammar</div>
+    <h3 class="sec-head">❤️ Like / Don't Like</h3>
+    <div class="table-wrap">
+      <table class="gram-table">
+        <thead><tr><th>Subject</th><th>Positive</th><th>Negative</th></tr></thead>
+        <tbody>
+          <tr><td>I / You / We / They</td><td class="pro">like + noun/verb-ing</td><td class="neg">don't like + noun/verb-ing</td></tr>
+          <tr><td>He / She / It</td><td class="pro">likes + noun/verb-ing</td><td class="neg">doesn't like + noun/verb-ing</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mini-gram">
+      <div class="mini-gram-title">📝 Examples</div>
+      <div class="mini-gram-row"><span class="pro">✓</span><span>I <strong>like</strong> fish. / She <strong>likes</strong> cooking.</span></div>
+      <div class="mini-gram-row"><span class="neg">✗</span><span>I <strong>don't like</strong> sugar. / He <strong>doesn't like</strong> vegetables.</span></div>
+    </div>
+    <h3 class="sec-head">🔢 Countable &amp; Uncountable Nouns</h3>
+    <div class="table-wrap">
+      <table class="gram-table">
+        <thead><tr><th>Countable</th><th>Uncountable</th></tr></thead>
+        <tbody>
+          <tr><td>an egg / two eggs</td><td>rice (not "a rice")</td></tr>
+          <tr><td>an apple / three apples</td><td>water (not "a water")</td></tr>
+          <tr><td>a banana / five bananas</td><td>bread (not "a bread")</td></tr>
+          <tr><td>a lemon / four lemons</td><td>fruit (in general)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mini-gram">
+      <div class="mini-gram-title">💡 With uncountable nouns, use: some / a piece of / a glass of / a bowl of</div>
+      <div class="mini-gram-row"><span>→</span><span>some rice · a glass of water · a piece of bread · a bowl of soup</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec-badge sec-vocab">🔤 Vocabulary</div>
+    <p style="font-size:.82rem;color:var(--ink3);margin-bottom:14px">Tap 🔊 to hear each word. Add photos to <code>images/unit5/</code>.</p>
+    <div class="vocab-grid" id="vocab-grid"></div>
+  </div>
+
+  <div class="gramref">
+    <button class="gramref-toggle" onclick="toggleNotes()"><span>📝 Af-Soomaali Study Notes</span><span id="notes-arrow">▼</span></button>
+    <div class="gramref-body" id="notes-body">
+      <div class="table-wrap">
+        <table class="gram-table">
+          <thead><tr><th>English</th><th>Af-Soomaali</th></tr></thead>
+          <tbody>
+            <tr><td>I like rice.</td><td>Waxaan jecelahay bariis.</td></tr>
+            <tr><td>I don't like sugar.</td><td>Kuma jeclid sonkor.</td></tr>
+            <tr><td>She likes fish.</td><td>Waxay jecelahay kalluun.</td></tr>
+            <tr><td>some bread</td><td>qaar rooti ah</td></tr>
+            <tr><td>a glass of water</td><td>koob biyo ah</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-panel" id="tab-practice">
+  <div class="card">
+    <div class="sec-badge sec-grammar">✏️ Exercise 1 — Gap-fill</div>
+    <p class="gram-intro">Use <strong>like / likes / don't like / doesn't like</strong>.</p>
+    <div id="gap-container"></div>
+    <div class="btn-row">
+      <button class="btn" onclick="checkGap()">Check ✓</button>
+      <button class="btn btn-ghost" onclick="resetGap()">↺ Reset</button>
+    </div>
+    <div class="fb-strip" id="gap-fb"></div>
+  </div>
+  <div class="card">
+    <div class="sec-badge sec-grammar">🧩 Exercise 2 — Word order</div>
+    <p class="gram-intro">Put the words in the correct order.</p>
+    <div id="drag-container"></div>
+  </div>
+  <div class="card">
+    <div class="sec-badge sec-reading">📖 Exercise 3 — Comprehension</div>
+    <p class="gram-intro">Answer questions about Amina's story.</p>
+    <div class="comp-q"><p>1. What food does Amina like?</p>
+      <div class="comp-opts">
+        <label><input type="radio" name="c1" value="a"> Fizzy drinks and sweet food</label>
+        <label><input type="radio" name="c1" value="b"> Rice, lentils, and fish</label>
+        <label><input type="radio" name="c1" value="c"> Bread and sugar</label>
+      </div><div class="comp-fb" id="c1-fb"></div></div>
+    <div class="comp-q"><p>2. What does Amina eat for breakfast?</p>
+      <div class="comp-opts">
+        <label><input type="radio" name="c2" value="a"> Rice and lentils</label>
+        <label><input type="radio" name="c2" value="b"> An egg and some bread</label>
+        <label><input type="radio" name="c2" value="c"> Fruit and water</label>
+      </div><div class="comp-fb" id="c2-fb"></div></div>
+    <div class="comp-q"><p>3. Which word is UNCOUNTABLE?</p>
+      <div class="comp-opts">
+        <label><input type="radio" name="c3" value="a"> Egg</label>
+        <label><input type="radio" name="c3" value="b"> Apple</label>
+        <label><input type="radio" name="c3" value="c"> Water</label>
+      </div><div class="comp-fb" id="c3-fb"></div></div>
+    <button class="btn" onclick="checkComp()">Check answers ✓</button>
+    <div class="fb-strip" id="comp-fb"></div>
+  </div>
+</div>
+
+<div class="tab-panel" id="tab-quiz">
+  <div class="card">
+    <div class="sec-badge sec-grammar">🧪 Unit Quiz</div>
+    <p style="font-size:.84rem;color:var(--ink3);margin-bottom:16px">10 questions on <em>like / don't like</em> and countable nouns.</p>
+    <div id="quiz-container"></div>
+    <button class="btn" id="quiz-submit" onclick="submitQuiz()" style="margin-top:10px">Submit Quiz ✓</button>
+    <div class="score-banner" id="score-banner">
+      <div class="score-big" id="score-num"></div>
+      <div class="score-stars" id="score-stars"></div>
+      <div class="score-msg" id="score-msg"></div>
+      <button class="retry-btn" onclick="resetQuiz()">↺ Try again</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+let xp=0,streak=0;const MAX_XP=200;
+function gainXP(n){xp=Math.min(MAX_XP,xp+n);streak++;updateHUD()}
+function updateHUD(){document.getElementById('xp-fill').style.width=(xp/MAX_XP*100)+'%';document.getElementById('xp-val').textContent=xp;document.getElementById('streak-val').textContent=streak+'🔥'}
+const root=document.documentElement,themeBtn=document.getElementById('themeBtn');
+(function(){try{const s=localStorage.getItem('sl_theme');if(s){root.setAttribute('data-theme',s);themeBtn.textContent=s==='dark'?'☀️':'🌙'}}catch(e){}})();
+function toggleTheme(){const n=(root.getAttribute('data-theme')||'light')==='dark'?'light':'dark';root.setAttribute('data-theme',n);themeBtn.textContent=n==='dark'?'☀️':'🌙';try{localStorage.setItem('sl_theme',n)}catch(e){}}
+document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');const id=btn.dataset.tab;
+  document.getElementById('tab-'+id).classList.add('active');
+  if(id==='practice'){buildGap();buildDrag()}if(id==='quiz')buildQuiz();
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+function toggleNotes(){const b=document.getElementById('notes-body');const o=b.classList.toggle('open');document.getElementById('notes-arrow').textContent=o?'▲':'▼'}
+function playStory(){const a=document.getElementById('story-audio'),btn=document.getElementById('read-btn');
+  if(!a.paused){a.pause();btn.textContent='▶ Listen';return}
+  a.play().then(()=>btn.textContent='⏸ Playing…').catch(()=>{
+    const u=new SpeechSynthesisUtterance(document.getElementById('ctx').innerText);
+    u.lang='en-GB';u.rate=0.88;u.onstart=()=>btn.textContent='⏸ Playing…';u.onend=()=>btn.textContent='▶ Listen';window.speechSynthesis.speak(u)});
+  a.onended=()=>btn.textContent='▶ Listen'}
+function stopStory(){const a=document.getElementById('story-audio');a.pause();a.currentTime=0;window.speechSynthesis.cancel();document.getElementById('read-btn').textContent='▶ Listen'}
+let selectedWord=null;
+function selectWord(el,w){document.querySelectorAll('.wbox-word').forEach(e=>e.classList.remove('selected'));el.classList.add('selected');selectedWord=w}
+function revealBlank(el){if(!selectedWord)return;if(selectedWord===el.dataset.ans){el.textContent=selectedWord;el.classList.add('revealed');gainXP(5)}else{el.classList.add('wrong-flash');setTimeout(()=>el.classList.remove('wrong-flash'),600)}document.querySelectorAll('.wbox-word').forEach(e=>e.classList.remove('selected'));selectedWord=null}
+const VOCAB=[
+  {w:'rice',icon:'🍚',img:'images/unit5/rice.jpg'},
+  {w:'lentils',icon:'🥘',img:'images/unit5/lentils.jpg'},
+  {w:'fish',icon:'🐟',img:'images/unit5/fish.jpg'},
+  {w:'egg',icon:'🥚',img:'images/unit5/egg.jpg'},
+  {w:'bread',icon:'🍞',img:'images/unit5/bread.jpg'},
+  {w:'fruit',icon:'🍎',img:'images/unit5/fruit.jpg'},
+  {w:'water',icon:'💧',img:'images/unit5/water.jpg'},
+  {w:'vegetable',icon:'🥦',img:'images/unit5/vegetable.jpg'},
+  {w:'healthy',icon:'💪',img:'images/unit5/healthy.jpg'},
+  {w:'sugar',icon:'🍬',img:'images/unit5/sugar.jpg'},
+];
+document.getElementById('vocab-grid').innerHTML=VOCAB.map((v,i)=>`<div class="vocab-card" id="vc${i}"><div class="vocab-img"><img src="${v.img}" alt="${v.w}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" style="display:block"><div class="vocab-img-placeholder" style="display:none"><span style="font-size:2.2rem">${v.icon}</span><span class="ph-label">add image</span></div></div><div class="vocab-word-row"><span class="vocab-word">${v.w}</span><button class="vocab-speak" onclick="speakWord('${v.w}',${i})">🔊</button></div></div>`).join('');
+function speakWord(w,i){window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(w);u.lang='en-GB';u.rate=0.85;const c=document.getElementById('vc'+i);u.onstart=()=>c.classList.add('playing');u.onend=()=>c.classList.remove('playing');window.speechSynthesis.speak(u);gainXP(1)}
+const GAPS=[
+  {pre:'I',ans:'like',post:'rice and lentils.',hint:'I / positive'},
+  {pre:'She',ans:'likes',post:'fruit and vegetables.',hint:'she / positive → add -s'},
+  {pre:'I',ans:"don't like",post:'fizzy drinks.',hint:'I / negative'},
+  {pre:'He',ans:"doesn't like",post:'sweet food.',hint:'he / negative'},
+  {pre:'We',ans:'like',post:'cooking healthy meals.',hint:'we / positive'},
+  {pre:'My sister',ans:"doesn't like",post:'fish at all.',hint:'my sister = she / negative'},
+  {pre:'They',ans:'like',post:'going to the market.',hint:'they / positive'},
+  {pre:'My doctor',ans:"doesn't like",post:'me drinking fizzy drinks.',hint:'my doctor = he/she / negative'},
+];
+let gapBuilt=false;
+function buildGap(){if(gapBuilt)return;gapBuilt=true;document.getElementById('gap-container').innerHTML=GAPS.map((g,i)=>`<div class="gap-sentence"><span>${g.pre}</span><input class="gap-input" id="g${i}" data-ans="${g.ans}" autocomplete="off" spellcheck="false" placeholder="____"><span>${g.post}</span></div><small class="gap-hint">💡 ${g.hint}</small>`).join('')}
+function checkGap(){let ok=0;document.querySelectorAll('#gap-container .gap-input').forEach(inp=>{const v=inp.value.trim().toLowerCase(),a=inp.dataset.ans.toLowerCase();if(v===a){inp.classList.add('correct');inp.classList.remove('wrong');ok++}else{inp.classList.add('wrong');inp.classList.remove('correct')}});gainXP(ok*5);const fb=document.getElementById('gap-fb');fb.textContent=ok===GAPS.length?'🌟 All correct! +'+(ok*5)+' XP':ok+'/'+GAPS.length+' correct — check the red boxes.';fb.className='fb-strip '+(ok===GAPS.length?'ok':'bad')}
+function resetGap(){document.querySelectorAll('#gap-container .gap-input').forEach(i=>{i.value='';i.classList.remove('correct','wrong')});document.getElementById('gap-fb').className='fb-strip'}
+const DRAGS=[
+  {words:['I','like','fruit','and','vegetables','.'],ans:'I like fruit and vegetables .'},
+  {words:['She','doesn\'t','like','fizzy','drinks','.'],ans:"She doesn't like fizzy drinks ."},
+  {words:['Do','you','like','cooking','?'],ans:'Do you like cooking ?'},
+  {words:['I','eat','a','bowl','of','rice','every','day','.'],ans:'I eat a bowl of rice every day .'},
+];
+let dragChip=null;
+function buildDrag(){const c=document.getElementById('drag-container');if(c.innerHTML.trim())return;DRAGS.forEach((s,si)=>{const sh=[...s.words].sort(()=>Math.random()-.5);const d=document.createElement('div');d.innerHTML=`<p class="exercise-label" style="margin-top:${si?16:0}px">Sentence ${si+1}</p><div class="word-bank" id="bank${si}">${sh.map(w=>`<span class="word-chip" draggable="true" data-w="${w}">${w}</span>`).join('')}</div><div class="drop-zone" id="zone${si}"></div><div class="drag-result" id="dr${si}"></div><div class="btn-row"><button class="btn" onclick="checkDrag(${si},'${s.ans.replace(/'/g,"\\'")}')">Check ✓</button><button class="btn btn-ghost" onclick="resetDrag(${si})">↺</button></div>`;c.appendChild(d)});c.querySelectorAll('.word-chip').forEach(ch=>{ch.addEventListener('dragstart',()=>dragChip=ch);ch.addEventListener('dragend',()=>dragChip=null)});c.querySelectorAll('.drop-zone,.word-bank').forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();if(z.classList.contains('drop-zone'))z.classList.add('drag-over')});z.addEventListener('dragleave',()=>z.classList.remove('drag-over'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('drag-over');if(dragChip)z.appendChild(dragChip)})})}
+function checkDrag(si,expected){const chips=[...document.getElementById('zone'+si).querySelectorAll('.word-chip')].map(c=>c.dataset.w).join(' ');const r=document.getElementById('dr'+si);if(chips===expected){r.textContent='✓ Correct!';r.className='drag-result ok';gainXP(15)}else{r.textContent='✗ Not quite — try again.';r.className='drag-result bad'}}
+function resetDrag(si){const z=document.getElementById('zone'+si),b=document.getElementById('bank'+si);[...z.querySelectorAll('.word-chip')].forEach(c=>b.appendChild(c));document.getElementById('dr'+si).textContent=''}
+const COMP={c1:'b',c2:'b',c3:'c'};let compDone=false;
+function checkComp(){if(compDone)return;let all=true;for(const[k,v]of Object.entries(COMP)){const sel=document.querySelector(`input[name="${k}"]:checked`);const fb=document.getElementById(k+'-fb');if(!sel){fb.textContent='Please select an answer.';fb.className='comp-fb bad';all=false;continue}if(sel.value===v){fb.textContent='✓ Correct!';fb.className='comp-fb ok';gainXP(8)}else{fb.textContent='✗ Read the story again carefully.';fb.className='comp-fb bad';all=false}}const cfb=document.getElementById('comp-fb');cfb.textContent=all?'🎉 All correct!':'Some answers need a second look.';cfb.className='fb-strip '+(all?'ok':'bad');if(all)compDone=true}
+const QUIZ=[
+  {q:'Complete: "I ___ cooking." (positive)',opts:['like','likes','don\'t like','doesn\'t like'],ans:0},
+  {q:'Complete: "She ___ fizzy drinks." (negative)',opts:["likes","like","doesn't like","don't like"],ans:2},
+  {q:'Which noun is COUNTABLE?',opts:['rice','water','bread','egg'],ans:3},
+  {q:'Which noun is UNCOUNTABLE?',opts:['apple','banana','rice','lemon'],ans:2},
+  {q:'Complete: "He ___ fruit." (positive, he)',opts:['like','likes',"doesn't like","don't like"],ans:1},
+  {q:'Which is correct with an uncountable noun?',opts:['a rice','two rices','some rice','rice is'],ans:2},
+  {q:'Complete: "Do you ___ vegetables?"',opts:['likes','like','liked','liking'],ans:1},
+  {q:'Which is correct?',opts:['I like cooking.','I like cook.','I likes cooking.','I am like cooking.'],ans:0},
+  {q:'Complete: "They ___ sweet food." (negative, they)',opts:["doesn't like","don't like","not like","no like"],ans:1},
+  {q:'Which is correct?',opts:['a water','two waters','a glass of water','water glass'],ans:2},
+];
+let qBuilt=false,qDone=false;
+function buildQuiz(){if(qBuilt)return;qBuilt=true;document.getElementById('quiz-container').innerHTML=QUIZ.map((q,qi)=>`<div class="quiz-q"><p>${qi+1}. ${q.q}</p><div class="quiz-opts">${q.opts.map((o,oi)=>`<label id="ql${qi}_${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${o}</label>`).join('')}</div></div>`).join('')}
+function submitQuiz(){if(qDone)return;let sc=0;QUIZ.forEach((q,qi)=>{const sel=document.querySelector(`input[name="q${qi}"]:checked`);const v=sel?parseInt(sel.value):-1;if(v===q.ans){sc++;document.getElementById(`ql${qi}_${v}`).classList.add('ok-ans')}else{if(sel)document.getElementById(`ql${qi}_${v}`).classList.add('bad-ans');document.getElementById(`ql${qi}_${q.ans}`).classList.add('ok-ans')}});const pct=Math.round(sc/QUIZ.length*100);document.getElementById('score-num').textContent=sc+' / '+QUIZ.length+' ('+pct+'%)';document.getElementById('score-stars').textContent=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'';document.getElementById('score-msg').textContent=pct===100?'Perfect! You have mastered like / don\'t like!':pct>=70?'Great work! Review the highlighted answers.':'Keep practising — go back to the Unit tab.';document.getElementById('score-banner').classList.add('show');document.getElementById('quiz-submit').disabled=true;gainXP(Math.round(pct/100*50));qDone=true;document.getElementById('score-banner').scrollIntoView({behavior:'smooth'})}
+function resetQuiz(){qBuilt=false;qDone=false;document.getElementById('quiz-container').innerHTML='';document.getElementById('score-banner').classList.remove('show');document.getElementById('quiz-submit').disabled=false;buildQuiz()}
+</script>
