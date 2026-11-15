@@ -400,6 +400,7 @@ let qBuilt=false,qDone=false;
 function buildQuiz(){if(qBuilt)return;qBuilt=true;document.getElementById('quiz-container').innerHTML=QUIZ.map((q,qi)=>`<div class="quiz-q"><p>${qi+1}. ${q.q}</p><div class="quiz-opts">${q.opts.map((o,oi)=>`<label id="ql${qi}_${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${o}</label>`).join('')}</div></div>`).join('')}
 function submitQuiz(){if(qDone)return;let sc=0;QUIZ.forEach((q,qi)=>{const sel=document.querySelector(`input[name="q${qi}"]:checked`);const v=sel?parseInt(sel.value):-1;if(v===q.ans){sc++;document.getElementById(`ql${qi}_${v}`).classList.add('ok-ans')}else{if(sel)document.getElementById(`ql${qi}_${v}`).classList.add('bad-ans');document.getElementById(`ql${qi}_${q.ans}`).classList.add('ok-ans')}});const pct=Math.round(sc/QUIZ.length*100);document.getElementById('score-num').textContent=sc+' / '+QUIZ.length+' ('+pct+'%)';document.getElementById('score-stars').textContent=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'';document.getElementById('score-msg').textContent=pct===100?'Perfect! You have mastered can / can\'t!':pct>=70?'Great work! Review the highlighted answers.':'Keep practising — go back to the Unit tab.';document.getElementById('score-banner').classList.add('show');document.getElementById('quiz-submit').disabled=true;gainXP(Math.round(pct/100*50));qDone=true;document.getElementById('score-banner').scrollIntoView({behavior:'smooth'})}
 function resetQuiz(){qBuilt=false;qDone=false;document.getElementById('quiz-container').innerHTML='';document.getElementById('score-banner').classList.remove('show');document.getElementById('quiz-submit').disabled=false;buildQuiz()}
+</script>
 
 <!-- ══ TAB: WRITE ══ -->
 <div class="tab-panel" id="tab-write">
@@ -410,8 +411,6 @@ function resetQuiz(){qBuilt=false;qDone=false;document.getElementById('quiz-cont
 <div class="tab-panel" id="tab-speak">
   <!-- Populated by skills.js -->
 </div>
-
-</script>
 
 <script src="skills.js"></script>
 <script>
