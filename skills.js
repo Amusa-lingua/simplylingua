@@ -142,7 +142,7 @@ window.SLSkills = {
       this.recognition.stop();
       this.updateMicUI(false);
       const actions = document.getElementById('speak-actions');
-      if (this.transcript.trim() && actions) actions.style.display = 'flex';
+      if (actions) actions.style.display = 'flex';
     }
   },
 
