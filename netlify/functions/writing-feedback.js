@@ -57,9 +57,9 @@ Please mark this writing.`;
     };
   } catch (err) {
     return {
-      statusCode: 500,
+      statusCode: 200,
       headers: corsHeaders(),
-      body: JSON.stringify({ error: err.message })
+      body: JSON.stringify({ feedback: `Error: ${err.message}` })
     };
   }
 };
