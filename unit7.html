@@ -98,6 +98,29 @@ body{margin:0;background:var(--linen);color:var(--ink);font-family:'Inter',syste
 .retry-btn{margin-top:14px;background:#fff;color:var(--navy);border:none;padding:9px 24px;border-radius:8px;font-weight:700;cursor:pointer;font-size:.9rem}
 .exercise-label{font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);margin-bottom:8px}
 @media(max-width:520px){.lead-in-title{font-size:1.4rem}.vocab-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}}
+
+/* ── Skills: Writing & Speaking tabs ── */
+.skills-wrap { padding: 16px 0 32px; max-width: 640px; margin: 0 auto; }
+.skills-header h2 { font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.skills-task { font-size: .95rem; color: var(--ink2); background: var(--linen); border-left: 3px solid var(--amber); padding: 10px 14px; border-radius: 0 8px 8px 0; margin-bottom: 16px; line-height: 1.5; }
+textarea { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 10px; font-family: 'Inter', sans-serif; font-size: .95rem; color: var(--ink1); background: var(--surface); resize: vertical; outline: none; transition: border-color .2s; }
+textarea:focus { border-color: var(--teal); }
+.skills-actions { display: flex; gap: 10px; margin-top: 12px; }
+.btn-feedback { padding: 10px 20px; background: var(--navy); color: #fff; border: none; border-radius: 8px; font-size: .9rem; font-weight: 600; cursor: pointer; transition: background .2s; }
+.btn-feedback:hover { background: var(--teal); }
+.feedback-box { margin-top: 16px; border-radius: 12px; overflow: hidden; }
+.feedback-loading { padding: 16px; background: var(--linen); color: var(--ink2); font-size: .9rem; text-align: center; }
+.feedback-content { padding: 16px; background: #f0fdf4; border: 1px solid #bbf7d0; font-size: .92rem; line-height: 1.65; color: #1a2e1a; white-space: pre-line; }
+.feedback-error { padding: 16px; background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; font-size: .9rem; }
+.mic-area { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 20px 0; }
+.btn-mic { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 20px 32px; background: var(--navy); color: #fff; border: none; border-radius: 50px; font-size: .95rem; font-weight: 600; cursor: pointer; transition: background .2s, transform .1s; }
+.btn-mic:hover { background: var(--teal); }
+.btn-mic.recording { background: #dc2626; animation: pulse 1.2s infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+.transcript-display { width: 100%; padding: 12px 16px; background: var(--linen); border-radius: 10px; border: 1px solid var(--border); font-size: .92rem; line-height: 1.5; }
+.transcript-display p { margin-top: 6px; color: var(--ink1); font-style: italic; }
+.speech-warning { padding: 12px 16px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; font-size: .88rem; color: #92400e; margin-top: 12px; }
+
 </style>
 
 <div class="topbar">
@@ -363,4 +386,21 @@ let qBuilt=false,qDone=false;
 function buildQuiz(){if(qBuilt)return;qBuilt=true;document.getElementById('quiz-container').innerHTML=QUIZ.map((q,qi)=>`<div class="quiz-q"><p>${qi+1}. ${q.q}</p><div class="quiz-opts">${q.opts.map((o,oi)=>`<label id="ql${qi}_${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${o}</label>`).join('')}</div></div>`).join('')}
 function submitQuiz(){if(qDone)return;let sc=0;QUIZ.forEach((q,qi)=>{const sel=document.querySelector(`input[name="q${qi}"]:checked`);const v=sel?parseInt(sel.value):-1;if(v===q.ans){sc++;document.getElementById(`ql${qi}_${v}`).classList.add('ok-ans')}else{if(sel)document.getElementById(`ql${qi}_${v}`).classList.add('bad-ans');document.getElementById(`ql${qi}_${q.ans}`).classList.add('ok-ans')}});const pct=Math.round(sc/QUIZ.length*100);document.getElementById('score-num').textContent=sc+' / '+QUIZ.length+' ('+pct+'%)';document.getElementById('score-stars').textContent=pct>=90?'⭐⭐⭐':pct>=70?'⭐⭐':pct>=50?'⭐':'';document.getElementById('score-msg').textContent=pct===100?'Perfect! You have mastered going to!':pct>=70?'Great work! Review the highlighted answers.':'Keep practising — go back to the Unit tab.';document.getElementById('score-banner').classList.add('show');document.getElementById('quiz-submit').disabled=true;gainXP(Math.round(pct/100*50));qDone=true;document.getElementById('score-banner').scrollIntoView({behavior:'smooth'})}
 function resetQuiz(){qBuilt=false;qDone=false;document.getElementById('quiz-container').innerHTML='';document.getElementById('score-banner').classList.remove('show');document.getElementById('quiz-submit').disabled=false;buildQuiz()}
+
+<!-- ══ TAB: WRITE ══ -->
+<div class="tab-panel" id="tab-write">
+  <!-- Populated by skills.js -->
+</div>
+
+<!-- ══ TAB: SPEAK ══ -->
+<div class="tab-panel" id="tab-speak">
+  <!-- Populated by skills.js -->
+</div>
+
+<script src="skills.js"></script>
+
+<script>
+SLSkills.init(7, "Work & Plans");
+</script>
+
 </script>
