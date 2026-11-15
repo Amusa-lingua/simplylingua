@@ -40,6 +40,14 @@ Please mark this writing.`;
     );
 
     const data = await response.json();
+    // Return full error details if something went wrong
+    if (data.error) {
+      return {
+        statusCode: 200,
+        headers: corsHeaders(),
+        body: JSON.stringify({ feedback: `API Error: ${data.error.message} (code: ${data.error.code})` })
+      };
+    }
     const feedback = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sorry, could not generate feedback. Please try again.';
 
     return {
